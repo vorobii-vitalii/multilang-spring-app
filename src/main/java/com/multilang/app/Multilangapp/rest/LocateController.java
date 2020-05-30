@@ -24,7 +24,7 @@ public class LocateController {
         return locateService.getAll();
     }
 
-    @GetMapping("/{id:[0-9]+}}")
+    @GetMapping("/{id:[0-9]+}")
     public LocateDTO getLocateById(@PathVariable("id") Long id) {
         return locateService.getById(id);
     }
