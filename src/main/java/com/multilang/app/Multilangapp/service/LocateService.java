@@ -9,4 +9,5 @@ public interface LocateService {
     LocateDTO getById(Long id);
     List<LocateDTO> getAll();
     LocateDTO getByLanguageCode(String languageCode);
+    void deleteById(Long id);
 }

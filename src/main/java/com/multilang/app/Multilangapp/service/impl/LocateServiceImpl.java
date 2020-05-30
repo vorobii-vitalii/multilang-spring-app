@@ -53,4 +53,11 @@ public class LocateServiceImpl implements LocateService {
         return locateDTOMapper.to(locate);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        if (!locateRepository.existsById(id))
+            throw new LocateNotFoundException();
+        locateRepository.deleteById(id);
+    }
+
 }
