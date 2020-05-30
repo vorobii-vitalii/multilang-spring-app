@@ -1,11 +1,11 @@
 package com.multilang.app.Multilangapp.service;
 
-import com.multilang.app.Multilangapp.entity.Locate;
+import com.multilang.app.Multilangapp.dto.LocateDTO;
 
 import java.util.List;
 
 public interface LocateService {
-    Locate getById(Long id);
-    List<Locate> getAll();
-    Locate getByLanguageCode(String languageCode);
+    LocateDTO getById(Long id);
+    List<LocateDTO> getAll();
+    LocateDTO getByLanguageCode(String languageCode);
 }
