@@ -3,6 +3,7 @@ package com.multilang.app.Multilangapp.rest;
 import com.multilang.app.Multilangapp.dto.LocateDTO;
 import com.multilang.app.Multilangapp.service.LocateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,12 @@ public class LocateController {
     @PostMapping
     public LocateDTO addLocate(@RequestBody LocateDTO locateDTO) {
         return locateService.add(locateDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteLocateById(@PathVariable("id") Long id) {
+        locateService.deleteById(id);
     }
 
 }
