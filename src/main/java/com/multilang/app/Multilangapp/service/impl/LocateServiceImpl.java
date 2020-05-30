@@ -2,6 +2,7 @@ package com.multilang.app.Multilangapp.service.impl;
 
 import com.multilang.app.Multilangapp.dto.LocateDTO;
 import com.multilang.app.Multilangapp.entity.Locate;
+import com.multilang.app.Multilangapp.exceptions.LocateAlreadyExistsException;
 import com.multilang.app.Multilangapp.exceptions.LocateNotFoundException;
 import com.multilang.app.Multilangapp.mapper.Mapper;
 import com.multilang.app.Multilangapp.repository.LocateRepository;
@@ -26,8 +27,11 @@ public class LocateServiceImpl implements LocateService {
 
     @Override
     public LocateDTO add(LocateDTO locateDTO) {
-        Locate addedLocate = locateRepository.save(
-                locateDTOMapper.from(locateDTO));
+
+        if ( locateRepository.existsById(locateDTO.getId()) || locateRepository.existsByLanguageCode(locateDTO.getLanguageCode()) )
+                throw new LocateAlreadyExistsException();
+
+        Locate addedLocate = locateRepository.save(locateDTOMapper.from(locateDTO));
         return locateDTOMapper.to(addedLocate);
     }
 
