@@ -62,11 +62,13 @@ public class TranslationMapperTest {
 
         // Assume that TranslationText exists by given id
 
-        doReturn(Optional.of(new TranslatedText(translationTextId))).when(translatedTextRepository).findById(translationTextId);
+        doReturn( Optional.of( new TranslatedText( translationTextId ) ) )
+                .when(translatedTextRepository).findById(translationTextId);
 
         // Assume that Locate exists by given id
 
-        doReturn(Optional.of(new Locate(1L, languageCode))).when(locateRepository).findByLanguageCode(languageCode);
+        doReturn(Optional.of(new Locate(1L, languageCode)))
+                .when(locateRepository).findByLanguageCode(languageCode);
 
         Translation translation = translationDTOMapper.from(translationDTO);
 
@@ -74,6 +76,33 @@ public class TranslationMapperTest {
         assertEquals(translation.getLocate().getLanguageCode(), translationDTO.getLanguageCode());
         assertEquals(translation.getText(), translationDTO.getText());
         assertEquals(translation.getTranslatedText().getId(), translationDTO.getTranslatedTextId());
+    }
+
+    @Test
+    public void testTranslationMapperTo() {
+
+        // Set-up the Translation object
+
+        final Long id = 1L;
+        final String text = "Hello world";
+        final Long translatedTextId = 4L;
+        final String langCode = "ua";
+        Locate locate = new Locate(2L, langCode);
+        TranslatedText translatedText = new TranslatedText(translatedTextId);
+
+        Translation translation = new Translation();
+        translation.setId(id);
+        translation.setText(text);
+        translation.setTranslatedText(translatedText);
+        translation.setLocate(locate);
+
+        // Perform test
+
+        TranslationDTO translationDTO = translationDTOMapper.to(translation);
+        assertEquals(translationDTO.getId(), translation.getId());
+        assertEquals(translationDTO.getText(), translation.getText());
+        assertEquals(translationDTO.getTranslatedTextId(), translation.getTranslatedText().getId());
+        assertEquals(translationDTO.getLanguageCode(), translation.getLocate().getLanguageCode());
     }
 
 }
