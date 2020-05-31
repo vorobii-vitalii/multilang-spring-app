@@ -20,4 +20,8 @@ public class TranslatedText {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "translatedText")
     private Set<Translation> translations;
 
+    public TranslatedText(Long id) {
+        this.id = id;
+    }
+
 }
