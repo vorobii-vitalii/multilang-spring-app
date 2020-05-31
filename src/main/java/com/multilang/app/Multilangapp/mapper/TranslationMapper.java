@@ -52,6 +52,7 @@ public class TranslationMapper implements Mapper<Translation, TranslationDTO> {
         TranslationDTO translationDTO = new TranslationDTO();
         translationDTO.setId(translation.getId());
         translationDTO.setLanguageCode(translation.getLocate().getLanguageCode());
+        translationDTO.setTranslatedTextId(translation.getTranslatedText().getId());
         translationDTO.setText(translation.getText());
         return translationDTO;
     }
