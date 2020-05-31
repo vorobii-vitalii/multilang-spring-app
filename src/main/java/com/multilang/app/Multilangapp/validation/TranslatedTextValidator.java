@@ -1,6 +1,7 @@
 package com.multilang.app.Multilangapp.validation;
 
 import com.multilang.app.Multilangapp.repository.TranslatedTextRepository;
+import com.multilang.app.Multilangapp.service.TranslatedTextService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -8,11 +9,11 @@ import javax.validation.ConstraintValidatorContext;
 
 public class TranslatedTextValidator implements ConstraintValidator<TranslatedText, Long> {
 
-    private final TranslatedTextRepository translatedTextRepository;
+    private final TranslatedTextService translatedTextService;
 
     @Autowired
-    public TranslatedTextValidator(TranslatedTextRepository translatedTextRepository) {
-        this.translatedTextRepository = translatedTextRepository;
+    public TranslatedTextValidator(TranslatedTextService translatedTextService) {
+        this.translatedTextService = translatedTextService;
     }
 
     @Override
@@ -21,7 +22,7 @@ public class TranslatedTextValidator implements ConstraintValidator<TranslatedTe
 
     @Override
     public boolean isValid(Long translatedTextId, ConstraintValidatorContext context) {
-        return translatedTextRepository.existsById(translatedTextId);
+        return translatedTextService.existsById(translatedTextId);
     }
 
 }
