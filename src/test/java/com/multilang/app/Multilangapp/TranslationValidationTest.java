@@ -1,7 +1,18 @@
 package com.multilang.app.Multilangapp;
 
+import com.multilang.app.Multilangapp.dto.LocateDTO;
+import com.multilang.app.Multilangapp.dto.TranslatedTextDTO;
+import com.multilang.app.Multilangapp.entity.Locate;
+import com.multilang.app.Multilangapp.entity.TranslatedText;
+import com.multilang.app.Multilangapp.mapper.LocateMapper;
+import com.multilang.app.Multilangapp.mapper.Mapper;
+import com.multilang.app.Multilangapp.mapper.TranslatedTextMapper;
 import com.multilang.app.Multilangapp.repository.LocateRepository;
 import com.multilang.app.Multilangapp.repository.TranslatedTextRepository;
+import com.multilang.app.Multilangapp.service.LocateService;
+import com.multilang.app.Multilangapp.service.TranslatedTextService;
+import com.multilang.app.Multilangapp.service.impl.LocateServiceImpl;
+import com.multilang.app.Multilangapp.service.impl.TranslatedTextServiceImpl;
 import com.multilang.app.Multilangapp.validation.LanguageCodeValidator;
 import com.multilang.app.Multilangapp.validation.TranslatedTextValidator;
 import org.junit.Before;
@@ -25,6 +36,10 @@ public class TranslationValidationTest  {
     @Mock
     private LocateRepository locateRepository;
 
+    private LocateService locateService;
+
+    private TranslatedTextService translatedTextService;
+
     private LanguageCodeValidator languageCodeValidator;
 
     private TranslatedTextValidator translatedTextValidator;
@@ -32,8 +47,12 @@ public class TranslationValidationTest  {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        languageCodeValidator = new LanguageCodeValidator(locateRepository);
-        translatedTextValidator = new TranslatedTextValidator(translatedTextRepository);
+        Mapper<Locate, LocateDTO> locateDTOMapper = new LocateMapper();
+        Mapper<TranslatedText, TranslatedTextDTO> translatedTextDTOMapper = new TranslatedTextMapper();
+        locateService = new LocateServiceImpl(locateRepository, locateDTOMapper);
+        translatedTextService = new TranslatedTextServiceImpl(translatedTextRepository, translatedTextDTOMapper);
+        languageCodeValidator = new LanguageCodeValidator(locateService);
+        translatedTextValidator = new TranslatedTextValidator(translatedTextService);
     }
 
     @Test
@@ -43,7 +62,7 @@ public class TranslationValidationTest  {
 
         // Assume that TranslatedTextId exists by provided id
 
-        doReturn(true).when(translatedTextRepository).existsById(translatedTextId);
+        doReturn(true).when(translatedTextService).existsById(translatedTextId);
 
         assertTrue(translatedTextValidator.isValid(translatedTextId, null));
     }
@@ -55,7 +74,7 @@ public class TranslationValidationTest  {
 
         // Assume that Locate exists by provided language code
 
-        doReturn(true).when(locateRepository).existsByLanguageCode(languageCode);
+        doReturn(true).when(locateService).existsByLanguageCode(languageCode);
 
         assertTrue(languageCodeValidator.isValid(languageCode, null));
     }
@@ -67,7 +86,7 @@ public class TranslationValidationTest  {
 
         // Assume that TranslatedTextId doesn't exist by provided id
 
-        doReturn(false).when(translatedTextRepository).existsById(translatedTextId);
+        doReturn(false).when(translatedTextService).existsById(translatedTextId);
 
         assertFalse(translatedTextValidator.isValid(translatedTextId, null));
     }
@@ -79,7 +98,7 @@ public class TranslationValidationTest  {
 
         // Assume that Locate doesnt exist by provided language code
 
-        doReturn(false).when(locateRepository).existsByLanguageCode(languageCode);
+        doReturn(false).when(locateService).existsByLanguageCode(languageCode);
 
         assertFalse(languageCodeValidator.isValid(languageCode, null));
     }
