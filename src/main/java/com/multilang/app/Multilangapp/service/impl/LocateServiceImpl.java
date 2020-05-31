@@ -50,6 +50,11 @@ public class LocateServiceImpl implements LocateService {
     }
 
     @Override
+    public boolean existsByLanguageCode(String languageCode) {
+        return locateRepository.existsByLanguageCode(languageCode);
+    }
+
+    @Override
     public LocateDTO getByLanguageCode(String languageCode) {
         Locate locate = locateRepository
                 .findByLanguageCode(languageCode)
