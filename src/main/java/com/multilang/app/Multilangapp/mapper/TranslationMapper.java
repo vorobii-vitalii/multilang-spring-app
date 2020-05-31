@@ -1,38 +1,49 @@
 package com.multilang.app.Multilangapp.mapper;
 
 import com.multilang.app.Multilangapp.dto.LocateDTO;
+import com.multilang.app.Multilangapp.dto.TranslatedTextDTO;
 import com.multilang.app.Multilangapp.dto.TranslationDTO;
 import com.multilang.app.Multilangapp.entity.Locate;
 import com.multilang.app.Multilangapp.entity.TranslatedText;
 import com.multilang.app.Multilangapp.entity.Translation;
-import com.multilang.app.Multilangapp.repository.TranslatedTextRepository;
 import com.multilang.app.Multilangapp.service.LocateService;
+import com.multilang.app.Multilangapp.service.TranslatedTextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TranslationMapper implements Mapper<Translation, TranslationDTO> {
 
-    private final TranslatedTextRepository translatedTextRepository;
+    private final TranslatedTextService translatedTextService;
     private final LocateService locateService;
     private final Mapper<Locate, LocateDTO> locateDTOMapper;
+    private final Mapper<TranslatedText, TranslatedTextDTO> translatedTextDTOMapper;
 
     @Autowired
-    public TranslationMapper(TranslatedTextRepository translatedTextRepository, LocateService locateService, Mapper<Locate, LocateDTO> locateDTOMapper) {
-        this.translatedTextRepository = translatedTextRepository;
+    public TranslationMapper(TranslatedTextService translatedTextService,
+                             LocateService locateService,
+                             Mapper<Locate, LocateDTO> locateDTOMapper,
+                             Mapper<TranslatedText, TranslatedTextDTO> translatedTextDTOMapper) {
+        this.translatedTextService = translatedTextService;
         this.locateService = locateService;
         this.locateDTOMapper = locateDTOMapper;
+        this.translatedTextDTOMapper = translatedTextDTOMapper;
     }
 
     @Override
     public Translation from(TranslationDTO translationDTO) {
+
         Translation translation = new Translation();
+
         translation.setId(translationDTO.getId());
         translation.setText(translationDTO.getText());
+
         LocateDTO locateDTO = locateService.getByLanguageCode(translationDTO.getLanguageCode());
         translation.setLocate(locateDTOMapper.from(locateDTO));
-        TranslatedText translatedText = translatedTextRepository.getOne(translationDTO.getTranslatedTextId());
-        translation.setTranslatedText(translatedText);
+
+        TranslatedTextDTO translatedText = translatedTextService.getById(translationDTO.getTranslatedTextId());
+        translation.setTranslatedText(translatedTextDTOMapper.from(translatedText));
+
         return translation;
     }
 
