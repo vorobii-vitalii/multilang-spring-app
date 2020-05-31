@@ -8,6 +8,7 @@ public interface LocateService {
     LocateDTO add(LocateDTO locateDTO);
     LocateDTO getById(Long id);
     List<LocateDTO> getAll();
+    boolean existsByLanguageCode(String languageCode);
     LocateDTO getByLanguageCode(String languageCode);
     void deleteById(Long id);
 }
