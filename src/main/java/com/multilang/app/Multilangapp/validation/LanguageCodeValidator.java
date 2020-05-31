@@ -1,6 +1,7 @@
 package com.multilang.app.Multilangapp.validation;
 
 import com.multilang.app.Multilangapp.repository.LocateRepository;
+import com.multilang.app.Multilangapp.service.LocateService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -8,11 +9,11 @@ import javax.validation.ConstraintValidatorContext;
 
 public class LanguageCodeValidator implements ConstraintValidator<LanguageCode, String> {
 
-    private final LocateRepository locateRepository;
+    private final LocateService locateService;
 
     @Autowired
-    public LanguageCodeValidator(LocateRepository locateRepository) {
-        this.locateRepository = locateRepository;
+    public LanguageCodeValidator( LocateService locateService ) {
+        this.locateService = locateService;
     }
 
     @Override
@@ -21,7 +22,7 @@ public class LanguageCodeValidator implements ConstraintValidator<LanguageCode, 
 
     @Override
     public boolean isValid(String langCode, ConstraintValidatorContext context) {
-        return locateRepository.existsByLanguageCode(langCode);
+        return locateService.existsByLanguageCode(langCode);
     }
 
 }
