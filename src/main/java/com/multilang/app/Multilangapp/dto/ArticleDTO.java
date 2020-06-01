@@ -19,4 +19,8 @@ public class ArticleDTO {
 
     private Date createdAt;
 
+    private Long titleTranslatedTextId;
+
+    private Long bodyTranslatedTextId;
+
 }
