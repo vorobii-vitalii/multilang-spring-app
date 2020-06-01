@@ -70,10 +70,17 @@ public class ArticleMapperTest {
 
         final Long id = 2L;
         final Date createdAt = new Date();
+        final Long titleTranslatedTextId = 10L;
+        final Long bodyTranslatedTextId = 5L;
+
+        TranslatedText titleTranslatedText = new TranslatedText(titleTranslatedTextId);
+        TranslatedText bodyTranslatedText = new TranslatedText(bodyTranslatedTextId);
 
         Article article = new Article();
         article.setId(id);
         article.setCreatedAt(createdAt);
+        article.setTranslatedTitle(titleTranslatedText);
+        article.setTranslatedBody(bodyTranslatedText);
 
         // Verify
 
