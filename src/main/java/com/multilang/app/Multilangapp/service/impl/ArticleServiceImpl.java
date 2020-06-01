@@ -33,6 +33,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public ArticleDTO getById(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
+        return articleDTOMapper.to(article);
+    }
+
+    @Override
     public ArticleDTO getByIdAndLanguageCode(Long id, String languageCode) {
         Article article = articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
         Long titleId = article.getTranslatedTitle().getId();
