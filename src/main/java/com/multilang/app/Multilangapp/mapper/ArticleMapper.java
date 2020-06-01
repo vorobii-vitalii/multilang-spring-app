@@ -23,8 +23,8 @@ public class ArticleMapper implements Mapper<Article, ArticleDTO> {
         article.setId(articleDTO.getId());
         article.setCreatedAt(articleDTO.getCreatedAt());
 
-        TranslatedText translatedTitle = translatedTextRepository.getOne(articleDTO.getTitle().getId());
-        TranslatedText translatedBody = translatedTextRepository.getOne(articleDTO.getBody().getId());
+        TranslatedText translatedTitle = translatedTextRepository.getOne(articleDTO.getTitle().getTranslatedTextId());
+        TranslatedText translatedBody = translatedTextRepository.getOne(articleDTO.getBody().getTranslatedTextId());
 
         article.setTranslatedTitle(translatedTitle);
         article.setTranslatedBody(translatedBody);
@@ -37,6 +37,8 @@ public class ArticleMapper implements Mapper<Article, ArticleDTO> {
         ArticleDTO articleDTO = new ArticleDTO();
         articleDTO.setId(article.getId());
         articleDTO.setCreatedAt(article.getCreatedAt());
+        articleDTO.setTitleTranslatedTextId(article.getTranslatedTitle().getId());
+        articleDTO.setBodyTranslatedTextId(article.getTranslatedBody().getId());
         // Title and body are missed intentionally
         return articleDTO;
     }
