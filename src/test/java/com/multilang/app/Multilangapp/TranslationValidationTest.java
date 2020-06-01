@@ -62,7 +62,7 @@ public class TranslationValidationTest  {
 
         // Assume that TranslatedTextId exists by provided id
 
-        doReturn(true).when(translatedTextService).existsById(translatedTextId);
+        doReturn(true).when(translatedTextRepository).existsById(translatedTextId);
 
         assertTrue(translatedTextValidator.isValid(translatedTextId, null));
     }
@@ -74,7 +74,7 @@ public class TranslationValidationTest  {
 
         // Assume that Locate exists by provided language code
 
-        doReturn(true).when(locateService).existsByLanguageCode(languageCode);
+        doReturn(true).when(locateRepository).existsByLanguageCode(languageCode);
 
         assertTrue(languageCodeValidator.isValid(languageCode, null));
     }
@@ -86,7 +86,7 @@ public class TranslationValidationTest  {
 
         // Assume that TranslatedTextId doesn't exist by provided id
 
-        doReturn(false).when(translatedTextService).existsById(translatedTextId);
+        doReturn(false).when(translatedTextRepository).existsById(translatedTextId);
 
         assertFalse(translatedTextValidator.isValid(translatedTextId, null));
     }
@@ -98,7 +98,7 @@ public class TranslationValidationTest  {
 
         // Assume that Locate doesnt exist by provided language code
 
-        doReturn(false).when(locateService).existsByLanguageCode(languageCode);
+        doReturn(false).when(locateRepository).existsByLanguageCode(languageCode);
 
         assertFalse(languageCodeValidator.isValid(languageCode, null));
     }
